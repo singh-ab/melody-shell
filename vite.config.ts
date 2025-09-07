@@ -5,10 +5,8 @@ import { federation } from "@module-federation/vite";
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
-    origin: "http://localhost:5000",
     port: 5000,
   },
-  base: "http://localhost:5000",
   plugins: [
     react(),
     federation({
@@ -17,7 +15,10 @@ export default defineConfig({
         music_library: {
           type: "module",
           name: "music_library",
-          entry: "http://localhost:5001/remoteEntry.js",
+          // Use env variable in Vercel or default to localhost for development
+          entry: process.env.VITE_MUSIC_LIBRARY_URL
+            ? `${process.env.VITE_MUSIC_LIBRARY_URL}/remoteEntry.js`
+            : "http://localhost:5001/remoteEntry.js",
         },
       },
       shared: {

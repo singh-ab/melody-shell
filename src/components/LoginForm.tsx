@@ -15,37 +15,46 @@ const LoginForm: React.FC = () => {
   }
 
   return (
-    <form
-      onSubmit={submit}
+    <div
       style={{
         display: "flex",
-        flexDirection: "column",
-        gap: "0.5rem",
-        maxWidth: 260,
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "60vh",
       }}
     >
-      <h2>Login</h2>
-      <input
-        placeholder="Username"
-        value={u}
-        onChange={(e) => setU(e.target.value)}
-        required
-      />
-      <input
-        placeholder="Password"
-        type="password"
-        value={p}
-        onChange={(e) => setP(e.target.value)}
-        required
-      />
-      <button type="submit">Sign In</button>
-      {err && <div style={{ color: "salmon", fontSize: 12 }}>{err}</div>}
-      <p style={{ fontSize: 11, opacity: 0.7, lineHeight: 1.3 }}>
-        Demo creds:
-        <br /> admin / admin
-        <br /> user / user
-      </p>
-    </form>
+      <form
+        onSubmit={submit}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "0.5rem",
+          maxWidth: 260,
+        }}
+      >
+        <h2>Login</h2>
+        <input
+          placeholder="Username"
+          value={u}
+          onChange={(e) => setU(e.target.value)}
+          required
+        />
+        <input
+          placeholder="Password"
+          type="password"
+          value={p}
+          onChange={(e) => setP(e.target.value)}
+          required
+        />
+        <button type="submit">Sign In</button>
+        {err && <div style={{ color: "salmon", fontSize: 12 }}>{err}</div>}
+        <p style={{ fontSize: 11, opacity: 0.7, lineHeight: 1.3 }}>
+          Demo creds:
+          <br /> admin / admin
+          <br /> user / user
+        </p>
+      </form>
+    </div>
   );
 };
 

@@ -83,12 +83,12 @@ function InnerApp() {
       <header
         style={{
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: user ? "space-between" : "center",
           alignItems: "center",
           marginBottom: "1rem",
         }}
       >
-        <h1 style={{ margin: 0 }}>Music MFE Demo</h1>
+        <h1 style={{ margin: 0 }}>Music MFE Shell</h1>
         {user && (
           <div
             style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}

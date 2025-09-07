@@ -16,9 +16,16 @@ export default defineConfig({
           type: "module",
           name: "music_library",
           // Use env variable in Vercel or default to localhost for development
-          entry: process.env.VITE_MUSIC_LIBRARY_URL
-            ? `${process.env.VITE_MUSIC_LIBRARY_URL}/remoteEntry.js`
-            : "http://localhost:5001/remoteEntry.js",
+          entry: (() => {
+            const remoteUrl = process.env.VITE_MUSIC_LIBRARY_URL;
+            if (remoteUrl) {
+              const cleanedUrl = remoteUrl.endsWith("/")
+                ? remoteUrl.slice(0, -1)
+                : remoteUrl;
+              return `${cleanedUrl}/remoteEntry.js`;
+            }
+            return "http://localhost:5001/remoteEntry.js";
+          })(),
         },
       },
       shared: {

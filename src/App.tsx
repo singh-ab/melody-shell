@@ -17,13 +17,15 @@ function RemoteLoader({ role }: { role: "admin" | "user" }) {
     setComp(null);
     import("music_library/MusicLibrary")
       .then((mod) => {
-        const resolved = (mod && (mod.default ?? mod)) as any;
+        const resolved = (mod && (mod.default ?? mod)) as React.ComponentType<{
+          role: string;
+        }>;
         if (!resolved)
           throw new Error("Remote module did not return a component");
         if (mounted) setComp(() => resolved);
       })
-      .catch((e: any) => {
-        if (mounted) setErr(String(e?.message ?? e));
+      .catch((e: unknown) => {
+        if (mounted) setErr(String(e instanceof Error ? e.message : e));
       });
     return () => {
       mounted = false;
@@ -52,15 +54,14 @@ class ErrorBoundary extends React.Component<
   { children: React.ReactNode },
   { error: string | null }
 > {
-  constructor(props: any) {
+  constructor(props: { children: React.ReactNode }) {
     super(props);
     this.state = { error: null };
   }
-  static getDerivedStateFromError(err: any) {
-    return { error: String(err?.message ?? err) };
+  static getDerivedStateFromError(err: unknown) {
+    return { error: String(err instanceof Error ? err.message : err) };
   }
-  componentDidCatch(err: any, info: any) {
-    // eslint-disable-next-line no-console
+  componentDidCatch(err: Error, info: React.ErrorInfo) {
     console.error("Remote render error", err, info);
   }
   render() {
@@ -71,7 +72,7 @@ class ErrorBoundary extends React.Component<
           <div>{this.state.error}</div>
         </div>
       );
-    return this.props.children as any;
+    return this.props.children;
   }
 }
 
